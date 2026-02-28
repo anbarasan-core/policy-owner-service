@@ -12,19 +12,28 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alturion.policyowner.common.ApiResponse;
 import com.alturion.policyowner.dto.PolicyOwnerDTO;
+import com.alturion.policyowner.service.PolicyOwnerService;
 
 @RestController
 @RequestMapping("/api/policyowners")
 public class PolicyOwnerController {
 	
+	private final PolicyOwnerService policyOwnerService;
+	
+	public PolicyOwnerController(PolicyOwnerService policyOwnerService) {
+		this.policyOwnerService = policyOwnerService;
+	}
+	
 	@PostMapping("/create")
-	public ResponseEntity<ApiResponse<PolicyOwnerDTO>> createPolicyOwner(@RequestBody PolicyOwnerDTO policyOwnerDTO) {
+	public ResponseEntity<ApiResponse<PolicyOwnerDTO>> ownerCreation(@RequestBody PolicyOwnerDTO policyOwnerDTO) {
+		
+		PolicyOwnerDTO createdOwner = policyOwnerService.createPolicyOwner(policyOwnerDTO);
 		
 		ApiResponse<PolicyOwnerDTO> apiResponse = new ApiResponse<PolicyOwnerDTO>(
 				LocalDateTime.now(),
-				201,
+				HttpStatus.CREATED.value(),
 				"Policy Owner Created Successfully",
-				policyOwnerDTO
+				createdOwner
 				);
 		
 		return new ResponseEntity<>(apiResponse,HttpStatus.CREATED);
