@@ -1,33 +1,48 @@
 package com.alturion.policyowner.dto;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-public class PolicyOwnerDTO {
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+@JsonPropertyOrder(alphabetic = true)
+public class PolicyOwnerResponseDTO {
 	
+	private Long userID;
 	private String firstName;
 	private String lastName;
 	private String middleName;
+	
 	private LocalDate dateOfBirth;
+	
 	private String gender;
+	
 	private String aadhaarNumber;
 	private String panNumber;
 	private String contactNumber;
 	private String alternateContactNumber;
+	
 	private String addressLine1;
 	private String addressLine2;
 	private String city;
 	private String state;
 	private String pinCode;
 	private String country;
+	
 	private String beneficiaryName;
 	private String beneficiaryRelationship;
 	private String beneficiaryContactNumber;
 	private Long agentId;
 	
-	
-	public PolicyOwnerDTO() {
+	private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+    
+	public Long getUserID() {
+		return userID;
 	}
-	
+	public void setUserID(Long userID) {
+		this.userID = userID;
+	}
 	public String getFirstName() {
 		return firstName;
 	}
@@ -142,7 +157,18 @@ public class PolicyOwnerDTO {
 	public void setAgentId(Long agentId) {
 		this.agentId = agentId;
 	}
-	
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+	public LocalDateTime getUpdatedAt() {
+		return updatedAt;
+	}
+	public void setUpdatedAt(LocalDateTime updatedAt) {
+		this.updatedAt = updatedAt;
+	}
 	
 
 }

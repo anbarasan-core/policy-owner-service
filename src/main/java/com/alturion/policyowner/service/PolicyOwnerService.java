@@ -1,9 +1,12 @@
 package com.alturion.policyowner.service;
 
-import com.alturion.policyowner.dto.PolicyOwnerDTO;
+import com.alturion.policyowner.dto.PolicyOwnerRequestDTO;
+import com.alturion.policyowner.dto.PolicyOwnerResponseDTO;
 
 public interface PolicyOwnerService {
 	
-	PolicyOwnerDTO createPolicyOwner(PolicyOwnerDTO policyOwnerDTO);
+	PolicyOwnerResponseDTO createPolicyOwner(PolicyOwnerRequestDTO policyOwnerDTO);
+	
+	PolicyOwnerResponseDTO findUserByUserID(Long userID);
 
 }

@@ -5,13 +5,15 @@ import java.time.LocalDateTime;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alturion.policyowner.common.ApiResponse;
-import com.alturion.policyowner.dto.PolicyOwnerDTO;
+import com.alturion.policyowner.dto.PolicyOwnerRequestDTO;
+import com.alturion.policyowner.dto.PolicyOwnerResponseDTO;
 import com.alturion.policyowner.service.PolicyOwnerService;
 
 @RestController
@@ -25,11 +27,11 @@ public class PolicyOwnerController {
 	}
 	
 	@PostMapping("/create")
-	public ResponseEntity<ApiResponse<PolicyOwnerDTO>> ownerCreation(@RequestBody PolicyOwnerDTO policyOwnerDTO) {
+	public ResponseEntity<ApiResponse<PolicyOwnerResponseDTO>> ownerCreation(@RequestBody PolicyOwnerRequestDTO policyOwnerRequestDTO) {
 		
-		PolicyOwnerDTO createdOwner = policyOwnerService.createPolicyOwner(policyOwnerDTO);
+		PolicyOwnerResponseDTO createdOwner = policyOwnerService.createPolicyOwner(policyOwnerRequestDTO);
 		
-		ApiResponse<PolicyOwnerDTO> apiResponse = new ApiResponse<PolicyOwnerDTO>(
+		ApiResponse<PolicyOwnerResponseDTO> apiResponse = new ApiResponse<PolicyOwnerResponseDTO>(
 				LocalDateTime.now(),
 				HttpStatus.CREATED.value(),
 				"Policy Owner Created Successfully",
@@ -42,6 +44,19 @@ public class PolicyOwnerController {
 	@GetMapping("/welcomeMessage")
 	public String welcomeMessage() {
 		return "Welcome Policy Owners!";
+	}
+	
+	@GetMapping("/{userID}")
+	public ResponseEntity<ApiResponse<PolicyOwnerResponseDTO>> findingUser(@PathVariable Long userID) {
+		PolicyOwnerResponseDTO ownerResponseDTO = policyOwnerService.findUserByUserID(userID);
+		
+		ApiResponse<PolicyOwnerResponseDTO> userApiResponse = new ApiResponse<>(
+				LocalDateTime.now(),
+				HttpStatus.OK.value(),
+				"User Successfully Retreived",
+				ownerResponseDTO
+				);
+		return new ResponseEntity<>(userApiResponse,HttpStatus.OK);
 	}
 
 }
