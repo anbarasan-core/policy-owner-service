@@ -58,29 +58,7 @@ public class PolicyOwnerServiceImpl implements PolicyOwnerService{
 		logger.info("Executing PolicyOwnerServiceImpl::findUserByUserID");
 		PolicyOwner policyOwner = policyOwnerRepository.findById(userID)
 													   .orElseThrow(()-> new ResourceNotFoundException("User Not Found for this ID"));
-		PolicyOwnerResponseDTO policyOwnerResponseDTO = new PolicyOwnerResponseDTO();
-		policyOwnerResponseDTO.setUserID(policyOwner.getUserID());
-		policyOwnerResponseDTO.setFirstName(policyOwner.getFirstName());
-		policyOwnerResponseDTO.setLastName(policyOwner.getLastName());
-		policyOwnerResponseDTO.setMiddleName(policyOwner.getMiddleName());
-		policyOwnerResponseDTO.setDateOfBirth(policyOwner.getDateOfBirth());
-		policyOwnerResponseDTO.setGender(policyOwner.getGender());
-		policyOwnerResponseDTO.setAadhaarNumber(policyOwner.getAadhaarNumber());
-		policyOwnerResponseDTO.setPanNumber(policyOwner.getPanNumber());
-		policyOwnerResponseDTO.setContactNumber(policyOwner.getContactNumber());
-		policyOwnerResponseDTO.setAlternateContactNumber(policyOwner.getAlternateContactNumber());
-		policyOwnerResponseDTO.setAddressLine1(policyOwner.getAddressLine1());
-		policyOwnerResponseDTO.setAddressLine2(policyOwner.getAddressLine2());
-		policyOwnerResponseDTO.setCity(policyOwner.getCity());
-		policyOwnerResponseDTO.setState(policyOwner.getState());
-		policyOwnerResponseDTO.setPinCode(policyOwner.getPinCode());
-		policyOwnerResponseDTO.setCountry(policyOwner.getCountry());
-		policyOwnerResponseDTO.setBeneficiaryName(policyOwner.getBeneficiaryName());
-		policyOwnerResponseDTO.setBeneficiaryRelationship(policyOwner.getBeneficiaryRelationship());
-		policyOwnerResponseDTO.setBeneficiaryContactNumber(policyOwner.getBeneficiaryContactNumber());
-		policyOwnerResponseDTO.setAgentId(policyOwner.getAgentId());
-		policyOwnerResponseDTO.setCreatedAt(policyOwner.getCreatedAt());
-		policyOwnerResponseDTO.setUpdatedAt(policyOwner.getUpdatedAt());
+		PolicyOwnerResponseDTO policyOwnerResponseDTO = policyOwnerMapper.toResponseDto(policyOwner);
 		return policyOwnerResponseDTO;
 	}
 
