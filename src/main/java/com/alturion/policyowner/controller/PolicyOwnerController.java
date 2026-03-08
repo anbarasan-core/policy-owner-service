@@ -16,6 +16,8 @@ import com.alturion.policyowner.dto.PolicyOwnerRequestDTO;
 import com.alturion.policyowner.dto.PolicyOwnerResponseDTO;
 import com.alturion.policyowner.service.PolicyOwnerService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/policyowners")
 public class PolicyOwnerController {
@@ -27,7 +29,7 @@ public class PolicyOwnerController {
 	}
 	
 	@PostMapping("/create")
-	public ResponseEntity<ApiResponse<PolicyOwnerResponseDTO>> ownerCreation(@RequestBody PolicyOwnerRequestDTO policyOwnerRequestDTO) {
+	public ResponseEntity<ApiResponse<PolicyOwnerResponseDTO>> ownerCreation(@Valid @RequestBody PolicyOwnerRequestDTO policyOwnerRequestDTO) {
 		
 		PolicyOwnerResponseDTO createdOwner = policyOwnerService.createPolicyOwner(policyOwnerRequestDTO);
 		
@@ -40,11 +42,6 @@ public class PolicyOwnerController {
 		
 		return new ResponseEntity<>(apiResponse,HttpStatus.CREATED);
 		}
-	
-	@GetMapping("/welcomeMessage")
-	public String welcomeMessage() {
-		return "Welcome Policy Owners!";
-	}
 	
 	@GetMapping("/{userID}")
 	public ResponseEntity<ApiResponse<PolicyOwnerResponseDTO>> findingUser(@PathVariable Long userID) {

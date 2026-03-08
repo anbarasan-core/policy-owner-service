@@ -2,6 +2,9 @@ package com.alturion.policyowner.dto;
 
 import java.time.LocalDate;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+
 public class PolicyOwnerRequestDTO {
 	
 	private String firstName;
@@ -12,7 +15,11 @@ public class PolicyOwnerRequestDTO {
 	
 	private String gender;
 	
+	@NotBlank
+	@Pattern(regexp = "^[0-9]{12}$", message = "Invalid Aadhar number")
 	private String aadhaarNumber;
+	@NotBlank
+	@Pattern(regexp = "^[A-Z]{5}[0-9]{4}[A-Z]{1}$", message = "Invalid PAN number")
 	private String panNumber;
 	private String contactNumber;
 	private String alternateContactNumber;

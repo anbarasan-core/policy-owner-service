@@ -1,10 +1,15 @@
 package com.alturion.policyowner.exception;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -12,6 +17,24 @@ import com.alturion.policyowner.common.ApiResponse;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+	
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public ResponseEntity<ApiResponse<Map<String,String>>> handlemethoArgumentException(MethodArgumentNotValidException methodException) {
+		
+		Map<String,String> errorMap = new HashMap<>();
+		List<FieldError> errors = methodException.getBindingResult().getFieldErrors();
+		for(FieldError error:errors) {
+			errorMap.put(error.getField(), error.getDefaultMessage());
+		}
+		ApiResponse<Map<String,String>> argumentExceptionResponse = new ApiResponse<>(
+				LocalDateTime.now(),
+				HttpStatus.BAD_REQUEST.value(),
+				"Validation errors Found",
+				errorMap
+				);
+		
+		return new ResponseEntity<ApiResponse<Map<String,String>>>(argumentExceptionResponse,HttpStatus.BAD_REQUEST);
+	}
 	
 	@ExceptionHandler(DuplicateUserException.class)
 	public ResponseEntity<ApiResponse<Void>> handleDuplicateUserException(DuplicateUserException duplicateException){
@@ -29,10 +52,21 @@ public class GlobalExceptionHandler {
 		ApiResponse<Void> dataIntegrityResponse = new ApiResponse<>(
 				LocalDateTime.now(),
 				HttpStatus.CONFLICT.value(),
-				"Duplicate value violates database constraint",
+				"Duplicate value for Aadhar or Pan number",
 				null
 				);
 		return new ResponseEntity<>(dataIntegrityResponse,HttpStatus.CONFLICT);
+	}
+
+	@ExceptionHandler(ResourceNotFoundException.class)
+	public ResponseEntity<ApiResponse<Void>> handleResourceNotFoundException (ResourceNotFoundException resourceException){
+		ApiResponse<Void> resourceResponse = new ApiResponse<>(
+				LocalDateTime.now(),
+				HttpStatus.NOT_FOUND.value(),
+				resourceException.getMessage(),
+				null
+				);
+		return new ResponseEntity<>(resourceResponse,HttpStatus.NOT_FOUND);
 	}
 	
 	@ExceptionHandler(Exception.class)
@@ -44,16 +78,6 @@ public class GlobalExceptionHandler {
 				null
 				);
 		return new ResponseEntity<>(genericResponse,HttpStatus.INTERNAL_SERVER_ERROR);
-	}
-	@ExceptionHandler(ResourceNotFoundException.class)
-	public ResponseEntity<ApiResponse<Void>> handleResourceNotFoundException (ResourceNotFoundException resourceException){
-		ApiResponse<Void> resourceResponse = new ApiResponse<>(
-				LocalDateTime.now(),
-				HttpStatus.NOT_FOUND.value(),
-				resourceException.getMessage(),
-				null
-				);
-		return new ResponseEntity<>(resourceResponse,HttpStatus.NOT_FOUND);
 	}
 
 }
