@@ -15,10 +15,10 @@ public class PolicyOwnerRequestDTO {
 	
 	private String gender;
 	
-	@NotBlank
+	@NotBlank(message = "Aadhar No. cannot be empty")
 	@Pattern(regexp = "^[0-9]{12}$", message = "Invalid Aadhar number")
 	private String aadhaarNumber;
-	@NotBlank
+	@NotBlank(message = "Pan No. cannot be empty")
 	@Pattern(regexp = "^[A-Z]{5}[0-9]{4}[A-Z]{1}$", message = "Invalid PAN number")
 	private String panNumber;
 	private String contactNumber;
@@ -34,8 +34,6 @@ public class PolicyOwnerRequestDTO {
 	private String beneficiaryName;
 	private String beneficiaryRelationship;
 	private String beneficiaryContactNumber;
-	private Long agentId;
-	
 	
 	public PolicyOwnerRequestDTO() {
 	}
@@ -148,13 +146,5 @@ public class PolicyOwnerRequestDTO {
 	public void setBeneficiaryContactNumber(String beneficiaryContactNumber) {
 		this.beneficiaryContactNumber = beneficiaryContactNumber;
 	}
-	public Long getAgentId() {
-		return agentId;
-	}
-	public void setAgentId(Long agentId) {
-		this.agentId = agentId;
-	}
-	
-	
 
 }

@@ -32,7 +32,6 @@ public class PolicyOwnerResponseDTO {
 	private String beneficiaryName;
 	private String beneficiaryRelationship;
 	private String beneficiaryContactNumber;
-	private Long agentId;
 	
 	private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -150,12 +149,6 @@ public class PolicyOwnerResponseDTO {
 	}
 	public void setBeneficiaryContactNumber(String beneficiaryContactNumber) {
 		this.beneficiaryContactNumber = beneficiaryContactNumber;
-	}
-	public Long getAgentId() {
-		return agentId;
-	}
-	public void setAgentId(Long agentId) {
-		this.agentId = agentId;
 	}
 	public LocalDateTime getCreatedAt() {
 		return createdAt;

@@ -42,7 +42,6 @@ public class PolicyOwner {
 	private String beneficiaryName;
 	private String beneficiaryRelationship;
 	private String beneficiaryContactNumber;
-	private Long agentId;
 	
 	private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -51,7 +50,7 @@ public class PolicyOwner {
 	public PolicyOwner(Long userID, String firstName, String lastName, String middleName, LocalDate dateOfBirth,
 			String gender, String aadhaarNumber, String panNumber, String contactNumber, String alternateContactNumber,
 			String addressLine1, String addressLine2, String city, String state, String pinCode, String country,
-			String beneficiaryName, String beneficiaryRelationship, String beneficiaryContactNumber, Long agentId,
+			String beneficiaryName, String beneficiaryRelationship, String beneficiaryContactNumber,
 			LocalDateTime createdAt, LocalDateTime updatedAt) {
 		super();
 		this.userID = userID;
@@ -73,7 +72,6 @@ public class PolicyOwner {
 		this.beneficiaryName = beneficiaryName;
 		this.beneficiaryRelationship = beneficiaryRelationship;
 		this.beneficiaryContactNumber = beneficiaryContactNumber;
-		this.agentId = agentId;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
 	}
@@ -193,12 +191,6 @@ public class PolicyOwner {
 	}
 	public void setBeneficiaryContactNumber(String beneficiaryContactNumber) {
 		this.beneficiaryContactNumber = beneficiaryContactNumber;
-	}
-	public Long getAgentId() {
-		return agentId;
-	}
-	public void setAgentId(Long agentId) {
-		this.agentId = agentId;
 	}
 	public LocalDateTime getCreatedAt() {
 		return createdAt;
