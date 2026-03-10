@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alturion.policyowner.common.ApiResponse;
+import com.alturion.policyowner.dto.OwnerAgentMappingRequestDto;
+import com.alturion.policyowner.dto.OwnerAgentMappingResponseDto;
 import com.alturion.policyowner.dto.PolicyOwnerRequestDTO;
 import com.alturion.policyowner.dto.PolicyOwnerResponseDTO;
 import com.alturion.policyowner.service.PolicyOwnerService;
@@ -54,6 +56,19 @@ public class PolicyOwnerController {
 				ownerResponseDTO
 				);
 		return new ResponseEntity<>(userApiResponse,HttpStatus.OK);
+	}
+	
+	@PostMapping("/agent/assign-agent")
+	public ResponseEntity<ApiResponse<OwnerAgentMappingResponseDto>> mappingAgent(@Valid @RequestBody OwnerAgentMappingRequestDto mappingRequestDto) {
+		OwnerAgentMappingResponseDto mappingResponseDto = policyOwnerService.mapAgentToOwner(mappingRequestDto);
+		
+		ApiResponse<OwnerAgentMappingResponseDto> userApiResponse = new ApiResponse<>(
+				LocalDateTime.now(),
+				HttpStatus.CREATED.value(),
+				"Agent Owner Mapping Created Successflly",
+				mappingResponseDto
+				);
+		return new ResponseEntity<>(userApiResponse,HttpStatus.CREATED);
 	}
 
 }

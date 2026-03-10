@@ -69,6 +69,17 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<>(resourceResponse,HttpStatus.NOT_FOUND);
 	}
 	
+	@ExceptionHandler(DuplicateMappingException.class)
+	public ResponseEntity<ApiResponse<Void>> handleduplicateMappingException (DuplicateMappingException duplicateMappingException){
+		ApiResponse<Void> resourceResponse = new ApiResponse<>(
+				LocalDateTime.now(),
+				HttpStatus.CONFLICT.value(),
+				duplicateMappingException.getMessage(),
+				null
+				);
+		return new ResponseEntity<>(resourceResponse,HttpStatus.CONFLICT);
+	}
+	
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<ApiResponse<Void>> handleGenericException (Exception exception){
 		ApiResponse<Void> genericResponse = new ApiResponse<>(
