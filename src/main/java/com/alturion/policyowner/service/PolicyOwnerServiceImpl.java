@@ -1,6 +1,8 @@
 package com.alturion.policyowner.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.springframework.stereotype.Service;
@@ -13,6 +15,7 @@ import com.alturion.policyowner.dto.OwnerAgentMappingRequestDto;
 import com.alturion.policyowner.dto.OwnerAgentMappingResponseDto;
 import com.alturion.policyowner.dto.PolicyOwnerRequestDTO;
 import com.alturion.policyowner.dto.PolicyOwnerResponseDTO;
+import com.alturion.policyowner.dto.PolicyOwnerSummaryDto;
 import com.alturion.policyowner.exception.DuplicateMappingException;
 import com.alturion.policyowner.exception.DuplicateUserException;
 import com.alturion.policyowner.exception.ResourceNotFoundException;
@@ -108,4 +111,36 @@ public class PolicyOwnerServiceImpl implements PolicyOwnerService{
 		return mappingResponseDto;			
 	}
 
+	@Override
+	public List<PolicyOwnerSummaryDto> findOwnersByAgent(Long agentId) {
+		
+		logger.info("Executing PolicyOwnerServiceImpl::findOwnersByAgent");
+		
+		List<AgentOwnerMapping> ownerMappingList = mappingRepository.findAllByAgentIdAndRemovedDateIsNull(agentId);
+			
+		List<Long> ownerIds = new ArrayList<>();
+		if(!ownerMappingList.isEmpty()) {
+			for(AgentOwnerMapping ownerList : ownerMappingList) {
+					ownerIds.add(ownerList.getOwnerId());
+				}
+			}
+			else {
+				throw new ResourceNotFoundException("No Owner mapping found for this agent");
+			}
+		   List<PolicyOwner> ownersList = policyOwnerRepository.findByUserIDIn(ownerIds);
+		   List<PolicyOwnerSummaryDto> summaryDto = new ArrayList<>();
+		   for(PolicyOwner policyOwner : ownersList) {
+			   PolicyOwnerSummaryDto singleDto = new PolicyOwnerSummaryDto();
+			   singleDto.setFirstName(policyOwner.getFirstName());
+			   singleDto.setLastName(policyOwner.getLastName());
+			   singleDto.setMiddleName(policyOwner.getMiddleName());
+			   singleDto.setContactNumber(policyOwner.getContactNumber());
+			   singleDto.setBeneficiaryName(policyOwner.getBeneficiaryName());
+			   singleDto.setState(policyOwner.getState());
+			   singleDto.setCountry(policyOwner.getCountry());
+			   
+			   summaryDto.add(singleDto);
+		   }
+		return summaryDto;
+	}
 }

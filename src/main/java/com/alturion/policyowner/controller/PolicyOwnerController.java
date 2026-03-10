@@ -1,6 +1,7 @@
 package com.alturion.policyowner.controller;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import com.alturion.policyowner.dto.OwnerAgentMappingRequestDto;
 import com.alturion.policyowner.dto.OwnerAgentMappingResponseDto;
 import com.alturion.policyowner.dto.PolicyOwnerRequestDTO;
 import com.alturion.policyowner.dto.PolicyOwnerResponseDTO;
+import com.alturion.policyowner.dto.PolicyOwnerSummaryDto;
 import com.alturion.policyowner.service.PolicyOwnerService;
 
 import jakarta.validation.Valid;
@@ -69,6 +71,19 @@ public class PolicyOwnerController {
 				mappingResponseDto
 				);
 		return new ResponseEntity<>(userApiResponse,HttpStatus.CREATED);
+	}
+	
+	@GetMapping("/agent/{agentId}")
+	public ResponseEntity<ApiResponse<List<PolicyOwnerSummaryDto>>> fetchOwnersUnderAgent(@PathVariable Long agentId) {
+		
+		List<PolicyOwnerSummaryDto> fetchAllOwners = policyOwnerService.findOwnersByAgent(agentId);
+		ApiResponse<List<PolicyOwnerSummaryDto>> userApiResponse = new ApiResponse<>(
+				LocalDateTime.now(),
+				HttpStatus.OK.value(),
+				"Owners under this agent fetched Successflly",
+				fetchAllOwners
+				);
+		return new ResponseEntity<>(userApiResponse,HttpStatus.OK);
 	}
 
 }
