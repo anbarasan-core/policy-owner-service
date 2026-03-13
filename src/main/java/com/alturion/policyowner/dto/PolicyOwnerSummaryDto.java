@@ -2,6 +2,7 @@ package com.alturion.policyowner.dto;
 
 public class PolicyOwnerSummaryDto {
 	
+	private Long userId;
 	private String firstName;
 	private String lastName;
 	private String middleName;
@@ -10,6 +11,15 @@ public class PolicyOwnerSummaryDto {
 	private String country;
 	private String beneficiaryName;
 	
+	public PolicyOwnerSummaryDto() {
+		super();
+	}
+	public Long getUserId() {
+		return userId;
+	}
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
 	public String getFirstName() {
 		return firstName;
 	}

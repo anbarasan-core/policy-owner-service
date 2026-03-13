@@ -117,30 +117,28 @@ public class PolicyOwnerServiceImpl implements PolicyOwnerService{
 		logger.info("Executing PolicyOwnerServiceImpl::findOwnersByAgent");
 		
 		List<AgentOwnerMapping> ownerMappingList = mappingRepository.findAllByAgentIdAndRemovedDateIsNull(agentId);
-			
+		List<PolicyOwnerSummaryDto> summaryDto = new ArrayList<>();	
 		List<Long> ownerIds = new ArrayList<>();
 		if(!ownerMappingList.isEmpty()) {
 			for(AgentOwnerMapping ownerList : ownerMappingList) {
 					ownerIds.add(ownerList.getOwnerId());
 				}
+			List<PolicyOwner> ownersList = policyOwnerRepository.findByUserIDIn(ownerIds);
+			   for(PolicyOwner policyOwner : ownersList) {
+				   PolicyOwnerSummaryDto singleDto = new PolicyOwnerSummaryDto();
+				   singleDto.setUserId(policyOwner.getUserID());
+				   singleDto.setFirstName(policyOwner.getFirstName());
+				   singleDto.setLastName(policyOwner.getLastName());
+				   singleDto.setMiddleName(policyOwner.getMiddleName());
+				   singleDto.setContactNumber(policyOwner.getContactNumber());
+				   singleDto.setBeneficiaryName(policyOwner.getBeneficiaryName());
+				   singleDto.setState(policyOwner.getState());
+				   singleDto.setCountry(policyOwner.getCountry());
+				   
+				   summaryDto.add(singleDto);
+			   }
+			   return summaryDto;
 			}
-			else {
-				throw new ResourceNotFoundException("No Owner mapping found for this agent");
-			}
-		   List<PolicyOwner> ownersList = policyOwnerRepository.findByUserIDIn(ownerIds);
-		   List<PolicyOwnerSummaryDto> summaryDto = new ArrayList<>();
-		   for(PolicyOwner policyOwner : ownersList) {
-			   PolicyOwnerSummaryDto singleDto = new PolicyOwnerSummaryDto();
-			   singleDto.setFirstName(policyOwner.getFirstName());
-			   singleDto.setLastName(policyOwner.getLastName());
-			   singleDto.setMiddleName(policyOwner.getMiddleName());
-			   singleDto.setContactNumber(policyOwner.getContactNumber());
-			   singleDto.setBeneficiaryName(policyOwner.getBeneficiaryName());
-			   singleDto.setState(policyOwner.getState());
-			   singleDto.setCountry(policyOwner.getCountry());
-			   
-			   summaryDto.add(singleDto);
-		   }
-		return summaryDto;
-	}
+			return summaryDto;
+		}
 }
