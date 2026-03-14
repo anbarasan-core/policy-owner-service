@@ -12,7 +12,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
 import com.alturion.policyowner.common.ApiResponse;
 
 @RestControllerAdvice
@@ -56,6 +55,18 @@ public class GlobalExceptionHandler {
 				null
 				);
 		return new ResponseEntity<>(dataIntegrityResponse,HttpStatus.CONFLICT);
+	}
+	
+	@ExceptionHandler(DependencyServiceUnavailableException.class)
+	public ResponseEntity<ApiResponse<Void>> handleDependencyServiceUnavailableException(DependencyServiceUnavailableException dependencyServiceException) {
+		
+		ApiResponse<Void> dependencyServiceUnavailableResponse = new ApiResponse<>(
+				LocalDateTime.now(),
+				HttpStatus.SERVICE_UNAVAILABLE.value(),
+				dependencyServiceException.getMessage(),
+				null
+				);
+		return new ResponseEntity<ApiResponse<Void>>(dependencyServiceUnavailableResponse,HttpStatus.SERVICE_UNAVAILABLE);
 	}
 
 	@ExceptionHandler(ResourceNotFoundException.class)
