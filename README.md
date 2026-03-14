@@ -4,6 +4,8 @@ The Policy Owner Service is a standalone microservice responsible for managing p
 
 ->Policy Info Service for validating policy ownership during policy-related operations.
 
+Responsibilities of this service includes managing policy owner information maintaining the Agent–Owner mapping providing owner data to other services Supporting aggregation operations required for dashboards. Service URLs and environment configurations are managed through application.properties
+
 Tech Stack: 
 
 Java 17
@@ -21,17 +23,6 @@ REST API
 RestTemplate (inter-service communication)
 
 Global Exception Handling
-
-Responsibilities of this service include:
-->managing policy owner information
-
-->maintaining the Agent–Owner mapping
-
-->providing owner data to other services
-
-->Supporting aggregation operations required for dashboards
-
-Service URLs and environment configurations are managed through application.properties
 
 Project Structure:
 
