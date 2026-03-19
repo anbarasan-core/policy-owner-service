@@ -3,6 +3,7 @@ package com.alturion.policyowner.config;
 import java.util.Date;
 import java.util.function.Function;
 
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
@@ -12,7 +13,7 @@ import io.jsonwebtoken.security.Keys;
 import java.security.Key;
 
 @Component
-public class JWTUtil {
+public class JwtUtil {
 	
 	private final long EXPIRATION_TIME = 1000*60*20;
 	
@@ -55,9 +56,9 @@ public class JWTUtil {
 		return extractExpiration(token).before(new Date());
 	}
 	
-	public boolean validateToken(String token,String username) {
+	public boolean validateToken(String token,UserDetails userDetails) {
 		final String extractedUserName = extractUsername(token);
-		return (extractedUserName.equals(extractedUserName) 
+		return (extractedUserName.equals(userDetails.getUsername()) 
 				&& !isTokenExpired(token));
 	}
 }
