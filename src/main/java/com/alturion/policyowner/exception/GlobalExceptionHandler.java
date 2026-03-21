@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -68,7 +69,18 @@ public class GlobalExceptionHandler {
 				);
 		return new ResponseEntity<ApiResponse<Void>>(dependencyServiceUnavailableResponse,HttpStatus.SERVICE_UNAVAILABLE);
 	}
-
+	
+	@ExceptionHandler(AuthorizationDeniedException.class)
+	public ResponseEntity<ApiResponse<Void>> handleAuthorizationDeniedException(AuthorizationDeniedException authorizationDeniedException) {
+		
+		ApiResponse<Void> authorizationExceptionResponse = new ApiResponse<>(
+				LocalDateTime.now(),
+				HttpStatus.FORBIDDEN.value(),
+				authorizationDeniedException.getMessage(),
+				null
+				);
+		return new ResponseEntity<ApiResponse<Void>>(authorizationExceptionResponse,HttpStatus.FORBIDDEN);
+	}
 	@ExceptionHandler(ResourceNotFoundException.class)
 	public ResponseEntity<ApiResponse<Void>> handleResourceNotFoundException (ResourceNotFoundException resourceException){
 		ApiResponse<Void> resourceResponse = new ApiResponse<>(

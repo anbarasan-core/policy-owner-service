@@ -2,6 +2,7 @@ package com.alturion.policyowner.dto;
 
 import java.time.LocalDate;
 
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
@@ -10,6 +11,10 @@ public class PolicyOwnerRequestDTO {
 	private String firstName;
 	private String lastName;
 	private String middleName;
+	@NotBlank(message = "Username is madatory")
+	private String username;
+	@NotBlank(message = "Password is madatory")
+	private String password;
 	
 	private LocalDate dateOfBirth;
 	
@@ -38,6 +43,18 @@ public class PolicyOwnerRequestDTO {
 	public PolicyOwnerRequestDTO() {
 	}
 	
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
 	public String getFirstName() {
 		return firstName;
 	}

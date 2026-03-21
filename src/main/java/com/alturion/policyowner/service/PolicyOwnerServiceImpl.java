@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +17,7 @@ import com.alturion.policyowner.dto.OwnerAgentMappingResponseDto;
 import com.alturion.policyowner.dto.PolicyOwnerRequestDTO;
 import com.alturion.policyowner.dto.PolicyOwnerResponseDTO;
 import com.alturion.policyowner.dto.PolicyOwnerSummaryDto;
+import com.alturion.policyowner.enums.UserRoleType;
 import com.alturion.policyowner.exception.DuplicateMappingException;
 import com.alturion.policyowner.exception.DuplicateUserException;
 import com.alturion.policyowner.exception.ResourceNotFoundException;
@@ -32,15 +34,18 @@ public class PolicyOwnerServiceImpl implements PolicyOwnerService{
 	private final PolicyOwnerMapper policyOwnerMapper;
 	private final AgentClient agentClient;
 	private final AgentMappingRepository mappingRepository;
+	private final PasswordEncoder passwordEncoder;
 	
 	public PolicyOwnerServiceImpl(PolicyOwnerRepository policyOwnerRepository,
 								  PolicyOwnerMapper policyOwnerMapper,
 								  AgentClient agentClient,
-								  AgentMappingRepository mappingRepository) {
+								  AgentMappingRepository mappingRepository,
+								  PasswordEncoder passwordEncoder) {
 		this.policyOwnerRepository = policyOwnerRepository;
 		this.policyOwnerMapper = policyOwnerMapper;
 		this.agentClient = agentClient;
 		this.mappingRepository = mappingRepository;
+		this.passwordEncoder = passwordEncoder;
 	}
 
 	@Override
@@ -60,6 +65,8 @@ public class PolicyOwnerServiceImpl implements PolicyOwnerService{
 		
 		policyOwner.setCreatedAt(LocalDateTime.now());
 		policyOwner.setUpdatedAt(LocalDateTime.now());
+		policyOwner.setPassword(passwordEncoder.encode(policyOwnerRequestDTO.getPassword()));
+		policyOwner.setRoleType(UserRoleType.ROLE_OWNER);
 
 		PolicyOwner savedOwner = policyOwnerRepository.save(policyOwner);
 		
