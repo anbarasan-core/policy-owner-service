@@ -3,6 +3,7 @@ package com.alturion.policyowner.dto;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import com.alturion.policyowner.enums.UserRoleType;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonPropertyOrder(alphabetic = true)
@@ -12,6 +13,9 @@ public class PolicyOwnerResponseDTO {
 	private String firstName;
 	private String lastName;
 	private String middleName;
+	
+	private String username;
+	private UserRoleType roleType;
 	
 	private LocalDate dateOfBirth;
 	
@@ -59,6 +63,18 @@ public class PolicyOwnerResponseDTO {
 	}
 	public void setMiddleName(String middleName) {
 		this.middleName = middleName;
+	}
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public UserRoleType getRoleType() {
+		return roleType;
+	}
+	public void setRoleType(UserRoleType roleType) {
+		this.roleType = roleType;
 	}
 	public LocalDate getDateOfBirth() {
 		return dateOfBirth;
@@ -162,6 +178,4 @@ public class PolicyOwnerResponseDTO {
 	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
 	}
-	
-
 }

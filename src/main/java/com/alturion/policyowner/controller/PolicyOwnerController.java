@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,11 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alturion.policyowner.common.ApiResponse;
+import com.alturion.policyowner.dto.AuthRequestDto;
+import com.alturion.policyowner.dto.AuthResponseDto;
 import com.alturion.policyowner.dto.OwnerAgentMappingRequestDto;
 import com.alturion.policyowner.dto.OwnerAgentMappingResponseDto;
 import com.alturion.policyowner.dto.PolicyOwnerRequestDTO;
 import com.alturion.policyowner.dto.PolicyOwnerResponseDTO;
 import com.alturion.policyowner.dto.PolicyOwnerSummaryDto;
+import com.alturion.policyowner.service.AuthService;
 import com.alturion.policyowner.service.PolicyOwnerService;
 
 import jakarta.validation.Valid;
@@ -27,9 +31,11 @@ import jakarta.validation.Valid;
 public class PolicyOwnerController {
 	
 	private final PolicyOwnerService policyOwnerService;
+	private final AuthService authService;
 	
-	public PolicyOwnerController(PolicyOwnerService policyOwnerService) {
+	public PolicyOwnerController(PolicyOwnerService policyOwnerService,AuthService authService) {
 		this.policyOwnerService = policyOwnerService;
+		this.authService = authService;
 	}
 	
 	@PostMapping("/create")
@@ -47,10 +53,23 @@ public class PolicyOwnerController {
 		return new ResponseEntity<>(apiResponse,HttpStatus.CREATED);
 		}
 	
+	@PostMapping("/login")
+	public ResponseEntity<ApiResponse<AuthResponseDto>> loginOwner(@RequestBody AuthRequestDto authRequestDto) {
+			
+		String token = authService.login(authRequestDto.getUsername(), authRequestDto.getPassword());
+		ApiResponse<AuthResponseDto> apiResponse = new ApiResponse<>(
+				LocalDateTime.now(),
+				HttpStatus.OK.value(),
+				"Login Successfull",
+				new AuthResponseDto(token)
+				);
+		return new ResponseEntity<>(apiResponse,HttpStatus.OK);
+	}
+	
 	@GetMapping("/{userID}")
+	@PreAuthorize("isAuthenticated() and hasRole('OWNER') and #userID==principal.userID")
 	public ResponseEntity<ApiResponse<PolicyOwnerResponseDTO>> findingUser(@PathVariable Long userID) {
 		PolicyOwnerResponseDTO ownerResponseDTO = policyOwnerService.findUserByUserID(userID);
-		
 		ApiResponse<PolicyOwnerResponseDTO> userApiResponse = new ApiResponse<>(
 				LocalDateTime.now(),
 				HttpStatus.OK.value(),

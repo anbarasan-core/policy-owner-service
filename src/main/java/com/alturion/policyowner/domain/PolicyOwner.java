@@ -3,8 +3,12 @@ package com.alturion.policyowner.domain;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import com.alturion.policyowner.enums.UserRoleType;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,6 +25,11 @@ public class PolicyOwner {
 	private String lastName;
 	private String middleName;
 	
+	@Column(name="username",unique=true,nullable = false)
+	private String username;
+	private String password;
+	@Enumerated(EnumType.STRING)
+	private UserRoleType roleType;
 	private LocalDate dateOfBirth;
 	
 	private String gender;
@@ -47,7 +56,7 @@ public class PolicyOwner {
     private LocalDateTime updatedAt;
     
     
-	public PolicyOwner(Long userID, String firstName, String lastName, String middleName, LocalDate dateOfBirth,
+	public PolicyOwner(Long userID, String firstName, String lastName, String middleName, String username, String password,UserRoleType roleType,LocalDate dateOfBirth,
 			String gender, String aadhaarNumber, String panNumber, String contactNumber, String alternateContactNumber,
 			String addressLine1, String addressLine2, String city, String state, String pinCode, String country,
 			String beneficiaryName, String beneficiaryRelationship, String beneficiaryContactNumber,
@@ -57,6 +66,9 @@ public class PolicyOwner {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.middleName = middleName;
+		this.username = username;
+		this.password = password;
+		this.roleType = roleType;
 		this.dateOfBirth = dateOfBirth;
 		this.gender = gender;
 		this.aadhaarNumber = aadhaarNumber;
@@ -101,6 +113,24 @@ public class PolicyOwner {
 	}
 	public void setMiddleName(String middleName) {
 		this.middleName = middleName;
+	}
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public UserRoleType getRoleType() {
+		return roleType;
+	}
+	public void setRoleType(UserRoleType roleType) {
+		this.roleType = roleType;
 	}
 	public LocalDate getDateOfBirth() {
 		return dateOfBirth;
@@ -204,6 +234,4 @@ public class PolicyOwner {
 	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
 	}
-    
-    
 }

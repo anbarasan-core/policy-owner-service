@@ -12,6 +12,8 @@ public interface PolicyOwnerMapper {
 	
 	@Mapping(target = "createdAt",ignore = true)
 	@Mapping(target = "updatedAt",ignore = true)
+	@Mapping(target = "password",ignore = true)
+	@Mapping(target = "roleType",ignore = true)
 	public PolicyOwner toEntity(PolicyOwnerRequestDTO policyOwnerRequestDTO);
 	public PolicyOwnerResponseDTO toResponseDto(PolicyOwner policyOwner); 
 }
