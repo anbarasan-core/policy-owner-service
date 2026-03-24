@@ -1,6 +1,6 @@
 Policy Owner Service:
 
-1)Description:
+1) Description:
 
 The Policy Owner Service is a standalone microservice within the Alturion Policy Systems, responsible for managing policy owner data and enforcing data integrity constraints. This service ensures uniqueness of critical identifiers such as Aadhaar and PAN to prevent duplicate records. It is designed by following microservice architecture principles, with a strong focus on separation of concerns, scalability, and maintainability. The service also integrates secure authentication and authorization mechanisms using Spring Security and JWT.
 
@@ -10,7 +10,7 @@ This service interacts with:
 
 • Policy Info Service -> For validating ownership during policy-related operations.
 
-2)Responsibilities:
+2) Responsibilities:
 
 • Create and manage policy owner records
 
@@ -22,9 +22,9 @@ This service interacts with:
 
 • Validate policy ownership during inter-service communication
 
-3)Tech Stack: Java 17, Maven, Spring Boot, Spring Data JPA, SQL, REST API, RestTemplate (inter-service communication),Spring Security (JWT-based Authentication & Authorization), Global Exception Handling
+3) Tech Stack: Java 17, Maven, Spring Boot, Spring Data JPA, SQL, REST API, RestTemplate (inter-service communication), Spring Security (JWT-based Authentication & Authorization), Global Exception Handling
 
-4)Project Structure:
+4) Project Structure:
 
 controller   → Exposes REST endpoints and handles HTTP requests/responses
 
@@ -44,29 +44,29 @@ config       → Includes application-level configurations
 
 security     → Contains JWT-related components
 
-5)Application Security:
+5) Application Security:
 
-• Implemented JWT-based stateless authentication using Spring Security, ensuring every request is securely validated without server-side sessions.
+• Implemented JWT-based authentication using Spring Security with a custom filter to validate tokens and set the SecurityContext for each request.
 
-• Enforced fine-grained authorization using @PreAuthorize with both role-based (RBAC) and data-level checks (ABAC) to prevent unauthorized access.
+• Enforced access control using @PreAuthorize with role checks and user-specific validation to ensure users can only access their own data.
 
-• Secured inter-service communication by propagating JWT tokens via a custom interceptor, ensuring consistent authentication across microservices.
+• Secured inter-service communication by forwarding JWT tokens via a custom interceptor, enabling authorization checks across microservices.
 
-6)Public Endpoints:
-
-POST /api/policyowners/login
+6) Public Endpoints:
 
 POST /api/policyowners/create
 
-7)Secured Endpoints (Requires JWT):
+POST /api/policyowners/login
+
+7) Secured Endpoints (Requires JWT):
 
 GET  /api/policyowners/{userID}
 
-POST /api/policyowners/agent/assign/agent
+POST /api/policyowners/agent/assign-agent
 
 GET  /api/policyowners/agent/{agentId}
 
-8)Configuration:
+8) Configuration:
 
 Environment-specific properties are managed via application.properties which includes:
 
