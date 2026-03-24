@@ -7,7 +7,9 @@ Policy Owner Service:
 2) Responsibilities:
 	
 	• Create and manage policy owner records
+	
 	• Maintain Agent–Owner mappings
+	
 	• Provide owner details to other microservices
 	
 	• Support aggregation use cases for dashboards
@@ -80,7 +82,7 @@ Policy Owner Service:
 
 	• Environment-specific properties are managed via application.properties which includes:
 	
-		• Database configuration
+		• Database configurations
 		
 		• JWT secret key 
 		
