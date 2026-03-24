@@ -83,5 +83,7 @@ Policy Owner Service:
 	• Environment-specific properties are managed via application.properties which includes:
 	
 		• Database configuration
+		
 		• JWT secret key 
+		
 		• Service URLs for inter-service communication
