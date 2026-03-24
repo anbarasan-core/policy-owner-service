@@ -4,12 +4,6 @@ Policy Owner Service:
 
 The Policy Owner Service is a standalone microservice within the Alturion Policy Systems, responsible for managing policy owner data and enforcing data integrity constraints. This service ensures uniqueness of critical identifiers such as Aadhaar and PAN to prevent duplicate records. It is designed by following microservice architecture principles, with a strong focus on separation of concerns, scalability, and maintainability. The service also integrates secure authentication and authorization mechanisms using Spring Security and JWT.
 
-This service interacts with:
-
-• Agent Service -> For agent-owner mapping operations.
-
-• Policy Info Service -> For validating ownership during policy-related operations.
-
 2) Responsibilities:
 
 • Create and manage policy owner records
