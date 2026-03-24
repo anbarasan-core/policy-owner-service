@@ -1,43 +1,73 @@
 Policy Owner Service:
 
-Description:
+1)Description:
 
-The Policy Owner Service is a standalone microservice responsible for managing policy owner information in Alturion Policy Systems. It provides REST APIs which manages owner creation, retrieval of owner details, and the mapping between policy owners and agents. The service enforces uniqueness constraints on Aadhaar and PAN numbers to prevent duplicate records. The service is designed following microservice architecture principles with global exception handling, standardized API responses and ensures clear separation of responsibilities between domain services. The service collaborates with:
+The Policy Owner Service is a standalone microservice within the Alturion Policy Systems, responsible for managing policy owner data and enforcing data integrity constraints. This service ensures uniqueness of critical identifiers such as Aadhaar and PAN to prevent duplicate records. It is designed by following microservice architecture principles, with a strong focus on separation of concerns, scalability, and maintainability. The service also integrates secure authentication and authorization mechanisms using Spring Security and JWT.
 
-->Agent Service for agent-owner mapping operations.
+This service interacts with:
 
-->Policy Info Service for validating policy ownership during policy-related operations.
+• Agent Service -> For agent-owner mapping operations.
 
-Responsibilities of this service includes managing policy owner information maintaining the Agent–Owner mapping providing owner data to other services Supporting aggregation operations required for dashboards. Service URLs and environment configurations are managed through application.properties
+• Policy Info Service -> For validating ownership during policy-related operations.
 
-Tech Stack: Java 17, Maven, Spring Boot, Spring Data JPA, SQL, REST API, RestTemplate (inter-service communication), Global Exception Handling
+2)Responsibilities:
 
-Project Structure:
+• Create and manage policy owner records
 
-controller   → REST API endpoints
+• Maintain Agent–Owner mappings
 
-service      → business logic
+• Provide owner details to other microservices
 
-repository   → database access layer
+• Support aggregation use cases for dashboards
 
-entity       → JPA entity classes
+• Validate policy ownership during inter-service communication
 
-dto          → request and response models
+3)Tech Stack: Java 17, Maven, Spring Boot, Spring Data JPA, SQL, REST API, RestTemplate (inter-service communication),Spring Security (JWT-based Authentication & Authorization), Global Exception Handling
 
-client       → communication with other microservices
+4)Project Structure:
 
-exception    → custom exceptions and global exception handling
+controller   → Exposes REST endpoints and handles HTTP requests/responses
 
-config       → application configurations
+service      → Contains core business logic and orchestration
 
-API Endpoints:
+repository   → Handles database interactions using Spring Data JPA
 
-POST - /create
+domain       → Represents JPA entities mapped to database tables
 
-GET  - /{userID}
+dto          → Defines request and response payloads for APIs
 
-POST - /agent/assign/agent
+client       → Handles inter-service communication using RestTemplate
 
-GET  - /agent/{agentId}
+exception    → Contains custom exceptions and global exception handling
 
-These endpoints support owner creation, owner information retrieval, assigning agents to owners, and retrieval of owner details associated with the agent.
+config       → Includes application-level configurations
+
+security     → Contains JWT-related components
+
+5)Application Security:
+
+• Implemented JWT-based stateless authentication using Spring Security, ensuring every request is securely validated without server-side sessions.
+
+• Enforced fine-grained authorization using @PreAuthorize with both role-based (RBAC) and data-level checks (ABAC) to prevent unauthorized access.
+
+• Secured inter-service communication by propagating JWT tokens via a custom interceptor, ensuring consistent authentication across microservices.
+
+6)Public Endpoints:
+
+POST /api/policyowners/login
+
+POST /api/policyowners/create
+
+7)Secured Endpoints (Requires JWT):
+
+GET  /api/policyowners/{userID}
+
+POST /api/policyowners/agent/assign/agent
+
+GET  /api/policyowners/agent/{agentId}
+
+8)Configuration:
+
+Environment-specific properties are managed via application.properties which includes:
+
+Database configuration, JWT secret key, Service URLs for inter-service communication
