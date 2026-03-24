@@ -16,7 +16,25 @@ Policy Owner Service:
 	
 	• Validate policy ownership during inter-service communication
 
-3) Tech Stack: Java 17, Maven, Spring Boot, Spring Data JPA, SQL, REST API, RestTemplate (inter-service communication), Spring Security (JWT-based Authentication & Authorization), Global Exception Handling
+3) Tech Stack:
+ 
+	• Java 17
+	
+	• Maven
+	
+	• Spring Boot
+	
+	• Spring Data JP 
+	
+	• SQL
+	
+	• REST API
+	
+	• RestTemplate (inter-service communication)
+	
+	• Spring Security (JWT-based Authentication & Authorization)
+	
+	• Global Exception Handling
 
 4) Project Structure:
 
@@ -64,4 +82,6 @@ Policy Owner Service:
 
 	• Environment-specific properties are managed via application.properties which includes:
 	
-	Database configuration, JWT secret key, Service URLs for inter-service communication
+		• Database configuration
+		• JWT secret key 
+		• Service URLs for inter-service communication
