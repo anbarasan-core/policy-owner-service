@@ -24,7 +24,7 @@ Policy Owner Service:
 	
 	• Spring Boot
 	
-	• Spring Data JP 
+	• Spring Data JPA
 	
 	• SQL
 	
@@ -40,7 +40,7 @@ Policy Owner Service:
 
 	• controller   → Exposes REST endpoints and handles HTTP requests/responses
 	
-	• service      → Contains core business logic and orchestration
+	• service      → Contains core business logic
 	
 	• repository   → Handles database interactions using Spring Data JPA
 	
