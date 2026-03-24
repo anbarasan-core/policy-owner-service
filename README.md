@@ -7,9 +7,7 @@ Policy Owner Service:
 2) Responsibilities:
 	
 	• Create and manage policy owner records
-	
 	• Maintain Agent–Owner mappings
-	
 	• Provide owner details to other microservices
 	
 	• Support aggregation use cases for dashboards
